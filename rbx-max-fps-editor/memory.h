@@ -4,7 +4,7 @@
 #include <Windows.h>
 #include <string>
 #include <iostream>
-#include "memManager.hpp"
+#include "memmanager.hpp"
 
 // debug logs
 inline bool debug = false;
@@ -44,4 +44,5 @@ void write(uintptr_t address, const T& value)
 {
 	if (!reader.Write(address, &value, sizeof(T)) && debug)
 		std::cout << "[!] Failed to write memory at 0x" << std::hex << address << std::endl;
+
 }
