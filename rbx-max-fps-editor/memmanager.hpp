@@ -1,8 +1,16 @@
-// memManager.hpp
+// memmanager.hpp
 
 #pragma once
 #include <Windows.h>
 #include <string>
+
+extern "C" NTSTATUS NtReadVirtualMemory(
+    HANDLE ProcessHandle,
+    PVOID BaseAddress,
+    PVOID Buffer,
+    ULONG NumberOfBytesToRead,
+    PULONG NumberOfBytesReaded
+);
 
 extern "C" NTSTATUS NtWriteVirtualMemory(
     HANDLE ProcessHandle,
