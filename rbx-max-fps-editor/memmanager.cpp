@@ -1,17 +1,9 @@
-// memManager.cpp
+// memmanager.cpp
 
-#include "memManager.hpp"
+#include "memmanager.hpp"
 #include <TlHelp32.h>
 #include <Psapi.h>
 #include <iostream>
-
-extern "C" NTSTATUS NtReadVirtualMemory(
-    HANDLE ProcessHandle,
-    PVOID BaseAddress,
-    PVOID Buffer,
-    ULONG NumberOfBytesToRead,
-    PULONG NumberOfBytesReaded
-);
 
 MemoryManager::MemoryManager(const std::wstring& name) : targetProcessName(name) {}
 
@@ -75,9 +67,7 @@ bool MemoryManager::Read(uintptr_t address, void* buffer, SIZE_T size) {
 
 bool MemoryManager::Write(uintptr_t address, const void* buffer, SIZE_T size)
 {
-    static auto NtWrite = reinterpret_cast<decltype(&NtWriteVirtualMemory)>(
-        GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtWriteVirtualMemory")
-        );
+    static auto NtWrite = reinterpret_cast<decltype(&NtWriteVirtualMemory)>(GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "NtWriteVirtualMemory"));
 
     if (!NtWrite) {
         std::cout << "[!] Failed to locate NtWriteVirtualMemory." << std::endl;
